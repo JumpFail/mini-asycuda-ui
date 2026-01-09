@@ -68,5 +68,3 @@ public class ImporterFormController {
         alert.showAndWait();
     }
 }
-
-// inputted fields aren't saved to table

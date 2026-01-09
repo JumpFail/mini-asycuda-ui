@@ -79,11 +79,11 @@
                      <children>
                         <TableView layoutX="112.0" layoutY="63.0" prefHeight="200.0" prefWidth="415.0">
                           <columns>
-                            <TableColumn prefWidth="98.39996337890625" text="DeclarationNo" />
-                            <TableColumn prefWidth="71.199951171875" text="Date" />
-                              <TableColumn prefWidth="85.60003662109375" text="Importer" />
-                              <TableColumn prefWidth="73.5999755859375" text="Status" />
-                              <TableColumn prefWidth="87.199951171875" text="Items" />
+                            <TableColumn prefWidth="98.39996337890625" text="DeclarationNo" fx:id="declNoColumn" />
+                            <TableColumn prefWidth="71.199951171875" text="Date" fx:id="dateColumn" />
+                              <TableColumn prefWidth="85.60003662109375" text="Importer" fx:id="importerColumn" />
+                              <TableColumn prefWidth="73.5999755859375" text="Status" fx:id="statusColumn" />
+                              <TableColumn prefWidth="87.199951171875" text="Items" fx:id="itemsColumn"/>
                           </columns>
                         </TableView>
                         <Label layoutX="213.0" layoutY="14.0" text="List of declarations">
@@ -91,7 +91,7 @@
                               <Font name="System Bold" size="24.0" />
                            </font>
                         </Label>
-                        <Button layoutX="131.0" layoutY="282.0" mnemonicParsing="false" text="Create declaration" />
+                        <Button layoutX="131.0" layoutY="282.0" mnemonicParsing="false" text="Create declaration" onAction="#openCreateDeclaration" />
                         <Button layoutX="366.0" layoutY="282.0" mnemonicParsing="false" text="View declaration details" />
                      </children>
                   </AnchorPane>
