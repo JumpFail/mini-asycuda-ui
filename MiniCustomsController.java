@@ -7,6 +7,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -104,6 +106,40 @@ public class MiniCustomsController {
 
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void openDeclarationDetails() {
+        // 1. Get the selected declaration from the table
+        Declaration selected = declarationTable.getSelectionModel().getSelectedItem();
+        if (selected == null) {
+            // optional: show alert
+            Alert alert = new Alert(Alert.AlertType.WARNING, "Please select a declaration first", ButtonType.OK);
+            alert.showAndWait();
+            return;
+        }
+
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("DeclarationDetails.fxml")
+            );
+            Parent root = loader.load();
+
+            DeclarationDetailsController controller = loader.getController();
+            controller.setDeclaration(selected);
+
+            Stage stage = new Stage();
+            stage.setTitle("Declaration Details - " + selected.getDeclarationNo());
+            stage.setScene(new Scene(root));
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setResizable(false);
+            stage.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Failed to open Declaration Details:\n" + e.getMessage(), ButtonType.OK);
+            alert.showAndWait();
         }
     }
 }

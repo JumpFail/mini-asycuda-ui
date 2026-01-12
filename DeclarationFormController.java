@@ -16,8 +16,6 @@ public class DeclarationFormController {
     private DatePicker datePicker;
     @FXML
     private ComboBox<Importer> importerBox;
-    @FXML
-    private ComboBox<DeclarationStatus> statusBox;
 
     private Consumer<Declaration> onSaveCallback;
 
@@ -29,31 +27,26 @@ public class DeclarationFormController {
     }
 
     @FXML
-    private void initialize() {
-        statusBox.getItems().setAll(DeclarationStatus.values());
-    }
-
-    @FXML
     private void saveDeclaration() {
         Declaration declaration = new Declaration(
                 Integer.parseInt(declNoField.getText()),
                 datePicker.getValue(),
-                importerBox.getValue(),
-                statusBox.getValue(),
-                new ArrayList<>()
+                importerBox.getValue()
         );
 
         if (onSaveCallback != null) {
             onSaveCallback.accept(declaration);
         }
 
-        ((Stage) declNoField.getScene().getWindow()).close();
+        close();
     }
 
     @FXML
     private void cancelDeclaration() {
         ((Stage) declNoField.getScene().getWindow()).close();
     }
-}
 
-// items required for it to fully save
+    private void close() {
+        ((Stage) declNoField.getScene().getWindow()).close();
+    }
+}
