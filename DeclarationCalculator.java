@@ -37,8 +37,8 @@ public class DeclarationCalculator {
 
     private static BigDecimal dutyRateForHs(String hsCode) {
         if (hsCode == null) return BigDecimal.valueOf(0.10);
-        if (hsCode.startsWith("94")) return BigDecimal.valueOf(0.25);
-        if (hsCode.startsWith("85")) return BigDecimal.valueOf(0.15);
+        if (hsCode.startsWith("94")) return BigDecimal.valueOf(0.25); // furniture
+        if (hsCode.startsWith("85")) return BigDecimal.valueOf(0.15); // electronics
         return BigDecimal.valueOf(0.10);
     }
 }

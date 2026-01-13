@@ -83,6 +83,41 @@ public class MiniCustomsController {
     }
 
     @FXML
+    private void openImporterDetails() {
+
+        Importer selected = importerTable.getSelectionModel().getSelectedItem();
+
+        if (selected == null) {
+            Alert alert = new Alert(Alert.AlertType.WARNING,
+                    "Please select an importer first",
+                    ButtonType.OK);
+            alert.showAndWait();
+            return;
+        }
+
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("ImporterDetails.fxml")
+            );
+            Parent root = loader.load();
+
+            ImporterDetailsController controller = loader.getController();
+            controller.setImporter(selected);
+
+            Stage stage = new Stage();
+            stage.setTitle("Importer Details - " + selected.getName());
+            stage.setScene(new Scene(root));
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setResizable(false);
+            stage.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    @FXML
     private void openCreateDeclaration() {
         try {
             FXMLLoader loader = new FXMLLoader(
@@ -134,6 +169,8 @@ public class MiniCustomsController {
             stage.setScene(new Scene(root));
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setResizable(false);
+
+            stage.setOnHidden(e -> declarationTable.refresh()); // table refresh
             stage.show();
 
         } catch (Exception e) {

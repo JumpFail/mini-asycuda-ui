@@ -68,7 +68,7 @@
                               <Font name="System Bold" size="24.0" />
                            </font>
                         </Label>
-                        <Button layoutX="358.0" layoutY="282.0" mnemonicParsing="false" text="View importer details" />
+                        <Button layoutX="358.0" layoutY="282.0" mnemonicParsing="false" text="View importer details" onAction="#openImporterDetails" />
                      </children>
                   </AnchorPane>
             </content>
