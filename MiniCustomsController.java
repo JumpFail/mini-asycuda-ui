@@ -3,6 +3,8 @@
 
 // this controller controls MiniCustoms.fxml
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -22,6 +24,7 @@ public class MiniCustomsController {
     // importers
     @FXML
     private TableView<Importer> importerTable;
+    private ObservableList<Importer> importersList;
 
     @FXML
     private TableColumn<Importer, Integer> tinColumn;
@@ -47,6 +50,11 @@ public class MiniCustomsController {
 
     @FXML
     public void initialize(){
+
+        // init and bind table to list
+        importersList = FXCollections.observableArrayList();
+        importerTable.setItems(importersList);
+
         // importers
         tinColumn.setCellValueFactory(new PropertyValueFactory<>("tin"));
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -127,7 +135,7 @@ public class MiniCustomsController {
 
             DeclarationFormController controller = loader.getController();
 
-            controller.setImporterList(importerTable.getItems());
+            controller.setImporterList(importersList);
             controller.setOnSaveCallback(
                     declaration -> declarationTable.getItems().add(declaration)
             );
