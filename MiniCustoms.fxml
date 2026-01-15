@@ -40,6 +40,7 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
 <VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MiniCustomsController">
@@ -48,42 +49,42 @@
         <tabs>
           <Tab text="Dashboard">
             <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-            </content>
-          </Tab>
-          <Tab text="Importers">
-            <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="736.0">
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TableView layoutX="132.0" layoutY="65.0" prefHeight="200.0" prefWidth="376.0" fx:id="importerTable">
-                          <columns>
-                            <TableColumn prefWidth="75.0" text="TIN" fx:id="tinColumn" />
-                            <TableColumn prefWidth="116.79998779296875" text="Name" fx:id="nameColumn" />
-                              <TableColumn prefWidth="183.20001220703125" text="Address" fx:id="addressColumn" />
-                          </columns>
-                        </TableView>
-                        <Button layoutX="138.0" layoutY="282.0" text="Add importer" onAction="#openAddImporter" />
-                        <Label layoutX="226.0" layoutY="14.0" text="List of importers">
+                        <Label layoutX="286.0" layoutY="14.0" text="Home">
                            <font>
                               <Font name="System Bold" size="24.0" />
                            </font>
                         </Label>
-                        <Button layoutX="358.0" layoutY="282.0" mnemonicParsing="false" text="View importer details" onAction="#openImporterDetails" />
-                     </children>
-                  </AnchorPane>
+                        <Label layoutX="69.0" layoutY="70.0" text="Recent Declarations">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <Line endX="-100.0" endY="287.60003662109375" layoutX="420.0" layoutY="70.0" startX="-100.0" />
+                        <Line endX="-100.0" endY="87.0" layoutX="575.0" layoutY="70.0" startX="-100.0" />
+                        <Line endX="106.5999755859375" layoutX="507.0" layoutY="157.0" startX="-165.4000244140625" />
+                        <Label layoutX="393.0" layoutY="170.0" prefHeight="30.0" prefWidth="162.0" text="Draft declarations waiting">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Button layoutX="341.0" layoutY="94.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="124.0" text="Create declaration" />
+                        <Button layoutX="493.0" layoutY="94.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="124.0" text="Register importer" />
+                     </children></AnchorPane>
             </content>
           </Tab>
             <Tab text="Declarations">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TableView layoutX="112.0" layoutY="63.0" prefHeight="200.0" prefWidth="415.0" fx:id="declarationTable">
+                        <TableView fx:id="declarationTable" layoutX="112.0" layoutY="63.0" prefHeight="200.0" prefWidth="415.0">
                           <columns>
-                            <TableColumn prefWidth="98.39996337890625" text="DeclarationNo" fx:id="declNoColumn" />
-                            <TableColumn prefWidth="71.199951171875" text="Date" fx:id="dateColumn" />
-                              <TableColumn prefWidth="85.60003662109375" text="Importer" fx:id="importerColumn" />
-                              <TableColumn prefWidth="73.5999755859375" text="Status" fx:id="statusColumn" />
-                              <TableColumn prefWidth="87.199951171875" text="Items" fx:id="itemsColumn"/>
+                            <TableColumn fx:id="declNoColumn" prefWidth="98.39996337890625" text="DeclarationNo" />
+                            <TableColumn fx:id="dateColumn" prefWidth="71.199951171875" text="Date" />
+                              <TableColumn fx:id="importerColumn" prefWidth="85.60003662109375" text="Importer" />
+                              <TableColumn fx:id="statusColumn" prefWidth="73.5999755859375" text="Status" />
+                              <TableColumn fx:id="itemsColumn" prefWidth="87.199951171875" text="Items" />
                           </columns>
                         </TableView>
                         <Label layoutX="213.0" layoutY="14.0" text="List of declarations">
@@ -91,12 +92,34 @@
                               <Font name="System Bold" size="24.0" />
                            </font>
                         </Label>
-                        <Button layoutX="131.0" layoutY="282.0" mnemonicParsing="false" text="Create declaration" onAction="#openCreateDeclaration" />
-                        <Button layoutX="366.0" layoutY="282.0" mnemonicParsing="false" text="View declaration details" onAction="#openDeclarationDetails"/>
+                        <Button layoutX="131.0" layoutY="282.0" mnemonicParsing="false" onAction="#openCreateDeclaration" text="Create declaration" />
+                        <Button layoutX="366.0" layoutY="282.0" mnemonicParsing="false" onAction="#openDeclarationDetails" text="View declaration details" />
                      </children>
                   </AnchorPane>
               </content>
             </Tab>
+          <Tab text="Importers">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="736.0">
+                     <children>
+                        <TableView fx:id="importerTable" layoutX="132.0" layoutY="65.0" prefHeight="200.0" prefWidth="376.0">
+                          <columns>
+                            <TableColumn fx:id="tinColumn" prefWidth="75.0" text="TIN" />
+                            <TableColumn fx:id="nameColumn" prefWidth="116.79998779296875" text="Name" />
+                              <TableColumn fx:id="addressColumn" prefWidth="183.20001220703125" text="Address" />
+                          </columns>
+                        </TableView>
+                        <Button layoutX="138.0" layoutY="282.0" onAction="#openAddImporter" text="Add importer" />
+                        <Label layoutX="226.0" layoutY="14.0" text="List of importers">
+                           <font>
+                              <Font name="System Bold" size="24.0" />
+                           </font>
+                        </Label>
+                        <Button layoutX="358.0" layoutY="282.0" mnemonicParsing="false" onAction="#openImporterDetails" text="View importer details" />
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
         </tabs>
       </TabPane>
    </children>

@@ -20,3 +20,9 @@ public class Main extends Application {
         launch(args);
     }
 }
+
+/*
+    * declarations is the endgame, focus on that
+    * declarations and importer together in a singular form
+    * better understand the customs flow
+ */

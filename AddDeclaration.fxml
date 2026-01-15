@@ -37,7 +37,8 @@
                         <Label text="Importer:" GridPane.rowIndex="2" />
                         <TextField fx:id="declNoField" GridPane.columnIndex="1" />
                         <DatePicker fx:id="datePicker" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                        <ComboBox fx:id="importerBox" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <ComboBox fx:id="importerBox" prefWidth="150.0" promptText="Select importer" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <Button mnemonicParsing="false" text="+ Add new" GridPane.columnIndex="1" GridPane.rowIndex="3" onAction="#openAddImporter" />
                      </children>
                   </GridPane>
                   <Label layoutX="44.0" layoutY="23.0" text="Create Declaration">
