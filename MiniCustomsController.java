@@ -77,7 +77,16 @@ public class MiniCustomsController {
             Parent root = loader.load();
 
             ImporterFormController formController = loader.getController();
-            formController.setOnSaveCallback(importer -> importerTable.getItems().add(importer));
+            formController.setOnSaveCallback(importer -> {
+
+                if (!isTinUnique(importer.getTin())) {
+                    showError("Importer with this TIN already exists!");
+                    return;
+                }
+
+                importersList.add(importer);
+            });
+
 
             Stage stage = new Stage();
             stage.setTitle("Add Importer");
@@ -136,9 +145,15 @@ public class MiniCustomsController {
             DeclarationFormController controller = loader.getController();
 
             controller.setImporterList(importersList);
-            controller.setOnSaveCallback(
-                    declaration -> declarationTable.getItems().add(declaration)
-            );
+            controller.setOnSaveCallback(declaration -> {
+
+                if (!isDeclarationNoUnique(declaration.getDeclarationNo())) {
+                    showError("Declaration number already exists!");
+                    return;
+                }
+
+                declarationTable.getItems().add(declaration);
+            });
 
             Stage stage = new Stage();
             stage.setTitle("Create Declaration");
@@ -186,5 +201,24 @@ public class MiniCustomsController {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Failed to open Declaration Details:\n" + e.getMessage(), ButtonType.OK);
             alert.showAndWait();
         }
+    }
+
+    // unique TIN/DecNo validation
+    private boolean isTinUnique(int tin) {
+        return importersList.stream()
+                .noneMatch(i -> i.getTin() == tin);
+    }
+
+    private boolean isDeclarationNoUnique(int declNo) {
+        return declarationTable.getItems().stream()
+                .noneMatch(d -> d.getDeclarationNo() == declNo);
+    }
+
+    // error message
+    private void showError(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }
