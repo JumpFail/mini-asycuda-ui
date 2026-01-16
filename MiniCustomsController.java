@@ -48,12 +48,31 @@ public class MiniCustomsController {
     @FXML
     private TableColumn<Declaration, Integer> itemsColumn;
 
+    // dashboard table
+    @FXML
+    private TableView<Declaration> recentDeclarationTable;
+
+    @FXML
+    private TableColumn<Declaration, Integer> recentDeclNoColumn;
+    @FXML
+    private TableColumn<Declaration, LocalDate> recentDateColumn;
+    @FXML
+    private TableColumn<Declaration, String> recentImporterColumn;
+    @FXML
+    private TableColumn<Declaration, String> recentStatusColumn;
+
+    // data
+    private ObservableList<Declaration> allDeclarations;
+    private ObservableList<Declaration> recentDeclarations;
+
     @FXML
     public void initialize(){
 
         // init and bind table to list
         importersList = FXCollections.observableArrayList();
         importerTable.setItems(importersList);
+        allDeclarations = FXCollections.observableArrayList();
+        declarationTable.setItems(allDeclarations);
 
         // importers
         tinColumn.setCellValueFactory(new PropertyValueFactory<>("tin"));
@@ -66,6 +85,15 @@ public class MiniCustomsController {
         importerColumn.setCellValueFactory(new PropertyValueFactory<>("importerName"));
         statusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
         itemsColumn.setCellValueFactory(new PropertyValueFactory<>("itemCount"));
+
+        // dashboard
+        recentDeclarations = FXCollections.observableArrayList();
+        recentDeclarationTable.setItems(recentDeclarations);
+
+        recentDeclNoColumn.setCellValueFactory(new PropertyValueFactory<>("declarationNo"));
+        recentDateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
+        recentImporterColumn.setCellValueFactory(new PropertyValueFactory<>("importerName"));
+        recentStatusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
     }
 
     @FXML
@@ -152,7 +180,8 @@ public class MiniCustomsController {
                     return;
                 }
 
-                declarationTable.getItems().add(declaration);
+                allDeclarations.add(declaration);
+                updateRecentDeclarations();
             });
 
             Stage stage = new Stage();
@@ -165,6 +194,15 @@ public class MiniCustomsController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void updateRecentDeclarations() {
+        recentDeclarations.setAll(
+                allDeclarations.stream()
+                        .sorted((d1, d2) -> d2.getDate().compareTo(d1.getDate()))
+                        .limit(5)
+                        .toList()
+        );
     }
 
     @FXML
