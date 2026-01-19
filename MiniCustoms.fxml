@@ -34,66 +34,82 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MiniCustomsController">
+<VBox prefHeight="400.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MiniCustomsController">
    <children>
-      <TabPane prefHeight="484.0" prefWidth="640.0" tabClosingPolicy="UNAVAILABLE">
+      <TabPane prefHeight="484.0" prefWidth="700.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
           <Tab text="Dashboard">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <Label layoutX="286.0" layoutY="14.0" text="Home">
+                        <Label layoutX="316.0" layoutY="14.0" text="Home">
                            <font>
                               <Font name="System Bold" size="24.0" />
                            </font>
                         </Label>
-                        <Label layoutX="69.0" layoutY="70.0" text="Recent Declarations">
+                        <Label layoutX="89.0" layoutY="66.0" text="Recent Declarations">
                            <font>
                               <Font name="System Bold" size="18.0" />
                            </font>
                         </Label>
-                        <Line endX="-100.0" endY="287.60003662109375" layoutX="420.0" layoutY="70.0" startX="-100.0" />
-                        <Line endX="-100.0" endY="87.0" layoutX="575.0" layoutY="70.0" startX="-100.0" />
-                        <Line endX="106.5999755859375" layoutX="507.0" layoutY="157.0" startX="-165.4000244140625" />
-                        <Label layoutX="393.0" layoutY="170.0" prefHeight="30.0" prefWidth="162.0" text="Draft declarations waiting">
+                        <Label layoutX="421.0" layoutY="155.0" prefHeight="30.0" prefWidth="230.0" text="Draft declarations waiting">
                            <font>
-                              <Font size="14.0" />
+                              <Font size="20.0" />
                            </font>
                         </Label>
-                        <Button layoutX="341.0" layoutY="94.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="124.0" text="Create declaration" />
-                        <Button layoutX="493.0" layoutY="94.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="124.0" text="Register importer" />
-                     </children></AnchorPane>
+                        <Button layoutX="405.0" layoutY="100.0" mnemonicParsing="false" onAction="#openCreateDeclaration" prefHeight="38.0" prefWidth="124.0" text="Create declaration" />
+                        <Button layoutX="546.0" layoutY="100.0" mnemonicParsing="false" onAction="#openAddImporter" prefHeight="38.0" prefWidth="124.0" text="Register importer" />
+                        <TableView fx:id="recentDeclarationTable" layoutX="28.0" layoutY="100.0" prefHeight="200.0" prefWidth="358.0">
+                          <columns>
+                            <TableColumn fx:id="recentDeclNoColumn" prefWidth="91.20001029968262" text="DeclarationNo" />
+                            <TableColumn fx:id="recentDateColumn" prefWidth="93.59998321533203" text="Date" />
+                              <TableColumn fx:id="recentImporterColumn" prefWidth="92.0" text="Importer" />
+                              <TableColumn fx:id="recentStatusColumn" prefWidth="80.0000061035156" text="Status" />
+                          </columns>
+                        </TableView>
+                        <ListView layoutX="429.0" layoutY="200.0" prefHeight="81.0" prefWidth="200.0" />
+                     </children>
+                  </AnchorPane>
             </content>
           </Tab>
             <Tab text="Declarations">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TableView fx:id="declarationTable" layoutX="112.0" layoutY="63.0" prefHeight="200.0" prefWidth="415.0">
+                        <TableView fx:id="declarationTable" layoutX="33.0" layoutY="77.0" prefHeight="258.0" prefWidth="382.0">
                           <columns>
                             <TableColumn fx:id="declNoColumn" prefWidth="98.39996337890625" text="DeclarationNo" />
                             <TableColumn fx:id="dateColumn" prefWidth="71.199951171875" text="Date" />
                               <TableColumn fx:id="importerColumn" prefWidth="85.60003662109375" text="Importer" />
                               <TableColumn fx:id="statusColumn" prefWidth="73.5999755859375" text="Status" />
-                              <TableColumn fx:id="itemsColumn" prefWidth="87.199951171875" text="Items" />
+                              <TableColumn fx:id="itemsColumn" prefWidth="52.0000061035156" text="Items" />
                           </columns>
                         </TableView>
-                        <Label layoutX="213.0" layoutY="14.0" text="List of declarations">
+                        <Label layoutX="243.0" layoutY="14.0" text="List of declarations">
                            <font>
                               <Font name="System Bold" size="24.0" />
                            </font>
                         </Label>
-                        <Button layoutX="131.0" layoutY="282.0" mnemonicParsing="false" onAction="#openCreateDeclaration" text="Create declaration" />
-                        <Button layoutX="366.0" layoutY="282.0" mnemonicParsing="false" onAction="#openDeclarationDetails" text="View declaration details" />
+                        <Button layoutX="443.0" layoutY="85.0" mnemonicParsing="false" onAction="#openCreateDeclaration" prefHeight="38.0" text="Create declaration" />
+                        <Button layoutX="491.0" layoutY="136.0" mnemonicParsing="false" onAction="#openDeclarationDetails" prefHeight="38.0" text="View declaration details" />
+                        <Button layoutX="570.0" layoutY="85.0" mnemonicParsing="false" onAction="#deleteDeclaration" prefHeight="38.0" text="Delete declaration" />
+                        <Label layoutX="442.0" layoutY="187.0" text="Looking for a declaration?">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="declarationSearchField" layoutX="449.0" layoutY="238.0" promptText="Enter Declaration No" />
+                        <Button onAction="#searchDeclaration" layoutX="617.0" layoutY="238.0" mnemonicParsing="false" text="Search" />
                      </children>
                   </AnchorPane>
               </content>
@@ -102,20 +118,28 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="736.0">
                      <children>
-                        <TableView fx:id="importerTable" layoutX="132.0" layoutY="65.0" prefHeight="200.0" prefWidth="376.0">
+                        <TableView fx:id="importerTable" layoutX="33.0" layoutY="77.0" prefHeight="250.0" prefWidth="376.0">
                           <columns>
                             <TableColumn fx:id="tinColumn" prefWidth="75.0" text="TIN" />
                             <TableColumn fx:id="nameColumn" prefWidth="116.79998779296875" text="Name" />
                               <TableColumn fx:id="addressColumn" prefWidth="183.20001220703125" text="Address" />
                           </columns>
                         </TableView>
-                        <Button layoutX="138.0" layoutY="282.0" onAction="#openAddImporter" text="Add importer" />
-                        <Label layoutX="226.0" layoutY="14.0" text="List of importers">
+                        <Button layoutX="449.0" layoutY="85.0" onAction="#openAddImporter" prefHeight="38.0" text="Add importer" />
+                        <Label layoutX="256.0" layoutY="14.0" text="List of importers">
                            <font>
                               <Font name="System Bold" size="24.0" />
                            </font>
                         </Label>
-                        <Button layoutX="358.0" layoutY="282.0" mnemonicParsing="false" onAction="#openImporterDetails" text="View importer details" />
+                        <Button layoutX="488.0" layoutY="133.0" mnemonicParsing="false" onAction="#openImporterDetails" prefHeight="38.0" text="View importer details" />
+                        <Button layoutX="567.0" layoutY="85.0" mnemonicParsing="false" prefHeight="38.0" onAction="#deleteImporter" text="Delete importer" />
+                        <TextField layoutX="449.0" fx:id="importerSearchField" layoutY="238.0" promptText="Enter Importer name" />
+                        <Label layoutX="442.0" layoutY="187.0" text="Looking for an importer?">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <Button layoutX="617.0" layoutY="238.0" mnemonicParsing="false" text="Search" onAction="#searchImporter" />
                      </children>
                   </AnchorPane>
             </content>

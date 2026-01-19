@@ -22,7 +22,9 @@ public class Main extends Application {
 }
 
 /*
-    * declarations is the endgame, focus on that
-    * declarations and importer together in a singular form
-    * better understand the customs flow
+    search bar for decl and imp
+    better status workflow
+    declaration must be locked after paid
+    item can be deleted before paid
+    declaration summary can be exported to pdf/text
  */

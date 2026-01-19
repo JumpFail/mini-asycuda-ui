@@ -9,10 +9,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TableColumn;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -25,18 +22,20 @@ public class MiniCustomsController {
     @FXML
     private TableView<Importer> importerTable;
     private ObservableList<Importer> importersList;
-
     @FXML
     private TableColumn<Importer, Integer> tinColumn;
     @FXML
     private TableColumn<Importer, String> nameColumn;
     @FXML
     private TableColumn<Importer, String> addressColumn;
+    @FXML
+    private TextField importerSearchField;
+    @FXML
+    private TextField declarationSearchField;
 
     // declaration
     @FXML
     private TableView<Declaration> declarationTable;
-
     @FXML
     private TableColumn<Declaration, Integer> declNoColumn;
     @FXML
@@ -48,12 +47,33 @@ public class MiniCustomsController {
     @FXML
     private TableColumn<Declaration, Integer> itemsColumn;
 
+    // dashboard table
+    @FXML
+    private TableView<Declaration> recentDeclarationTable;
+    @FXML
+    private TableColumn<Declaration, Integer> recentDeclNoColumn;
+    @FXML
+    private TableColumn<Declaration, LocalDate> recentDateColumn;
+    @FXML
+    private TableColumn<Declaration, String> recentImporterColumn;
+    @FXML
+    private TableColumn<Declaration, String> recentStatusColumn;
+
+    // data
+    private ObservableList<Declaration> allDeclarations;
+    private ObservableList<Declaration> recentDeclarations;
+
     @FXML
     public void initialize(){
+
+        importerSearchField.textProperty().addListener((obs, oldText, newText) -> searchImporter());
+        declarationSearchField.textProperty().addListener((obs, oldText, newText) -> searchDeclaration());
 
         // init and bind table to list
         importersList = FXCollections.observableArrayList();
         importerTable.setItems(importersList);
+        allDeclarations = FXCollections.observableArrayList();
+        declarationTable.setItems(allDeclarations);
 
         // importers
         tinColumn.setCellValueFactory(new PropertyValueFactory<>("tin"));
@@ -66,8 +86,18 @@ public class MiniCustomsController {
         importerColumn.setCellValueFactory(new PropertyValueFactory<>("importerName"));
         statusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
         itemsColumn.setCellValueFactory(new PropertyValueFactory<>("itemCount"));
+
+        // dashboard
+        recentDeclarations = FXCollections.observableArrayList();
+        recentDeclarationTable.setItems(recentDeclarations);
+
+        recentDeclNoColumn.setCellValueFactory(new PropertyValueFactory<>("declarationNo"));
+        recentDateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
+        recentImporterColumn.setCellValueFactory(new PropertyValueFactory<>("importerName"));
+        recentStatusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
     }
 
+    // Importer tab
     @FXML
     private void openAddImporter() {
         try {
@@ -133,7 +163,7 @@ public class MiniCustomsController {
         }
     }
 
-
+    // declaration tab
     @FXML
     private void openCreateDeclaration() {
         try {
@@ -152,7 +182,8 @@ public class MiniCustomsController {
                     return;
                 }
 
-                declarationTable.getItems().add(declaration);
+                allDeclarations.add(declaration);
+                updateRecentDeclarations();
             });
 
             Stage stage = new Stage();
@@ -165,6 +196,15 @@ public class MiniCustomsController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void updateRecentDeclarations() {
+        recentDeclarations.setAll(
+                allDeclarations.stream()
+                        .sorted((d1, d2) -> d2.getDate().compareTo(d1.getDate()))
+                        .limit(5)
+                        .toList()
+        );
     }
 
     @FXML
@@ -201,6 +241,121 @@ public class MiniCustomsController {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Failed to open Declaration Details:\n" + e.getMessage(), ButtonType.OK);
             alert.showAndWait();
         }
+    }
+
+    // delete buttons
+    @FXML
+    private void deleteDeclaration() {
+        Declaration selected = declarationTable.getSelectionModel().getSelectedItem();
+
+        if (selected == null) {
+            Alert alert = new Alert(
+                    Alert.AlertType.WARNING,
+                    "Please select a declaration to delete",
+                    ButtonType.OK
+            );
+            alert.showAndWait();
+            return;
+        }
+
+        Alert confirm = new Alert(
+                Alert.AlertType.CONFIRMATION,
+                "Are you sure you want to delete Declaration No. "
+                        + selected.getDeclarationNo() + "?",
+                ButtonType.YES,
+                ButtonType.NO
+        );
+
+        confirm.setHeaderText("Confirm Deletion");
+
+        confirm.showAndWait().ifPresent(response -> {
+            if (response == ButtonType.YES) {
+                allDeclarations.remove(selected);
+                updateRecentDeclarations();
+            }
+        });
+    }
+
+    @FXML
+    private void deleteImporter() {
+
+        Importer selected = importerTable.getSelectionModel().getSelectedItem();
+
+        if (selected == null) {
+            Alert alert = new Alert(
+                    Alert.AlertType.WARNING,
+                    "Please select an importer to delete",
+                    ButtonType.OK
+            );
+            alert.showAndWait();
+            return;
+        }
+
+        // Prevent deletion if importer has declarations
+        boolean hasDeclarations = allDeclarations.stream()
+                .anyMatch(d -> d.getImporter().equals(selected));
+        // or d.getImporter().equals(selected)
+
+        if (hasDeclarations) {
+            Alert alert = new Alert(
+                    Alert.AlertType.ERROR,
+                    "This importer cannot be deleted because it has declarations.",
+                    ButtonType.OK
+            );
+            alert.setHeaderText("Deletion Not Allowed");
+            alert.showAndWait();
+            return;
+        }
+
+        Alert confirm = new Alert(
+                Alert.AlertType.CONFIRMATION,
+                "Are you sure you want to delete importer "
+                        + selected.getName() + "?",
+                ButtonType.YES,
+                ButtonType.NO
+        );
+
+        confirm.setHeaderText("Confirm Deletion");
+
+        confirm.showAndWait().ifPresent(response -> {
+            if (response == ButtonType.YES) {
+                importersList.remove(selected);
+            }
+        });
+    }
+
+    // Search importers by name
+    @FXML
+    private void searchImporter() {
+        String query = importerSearchField.getText().trim().toLowerCase();
+
+        if (query.isEmpty()) {
+            importerTable.setItems(importersList); // reset
+            return;
+        }
+
+        ObservableList<Importer> filtered = importersList.filtered(
+                i -> i.getName().toLowerCase().contains(query)
+        );
+
+        importerTable.setItems(filtered);
+    }
+
+    // Search declarations by number
+    @FXML
+    private void searchDeclaration() {
+        String query = declarationSearchField.getText().trim();
+
+        if (query.isEmpty()) {
+            declarationTable.setItems(allDeclarations); // reset
+            return;
+        }
+
+        ObservableList<Declaration> filtered = allDeclarations.filtered(d ->
+                String.valueOf(d.getDeclarationNo()).contains(query)
+        );
+
+        declarationTable.setItems(filtered);
     }
 
     // unique TIN/DecNo validation
