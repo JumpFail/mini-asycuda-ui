@@ -108,8 +108,7 @@
                               <Font size="20.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="declarationSearchField" layoutX="449.0" layoutY="238.0" promptText="Enter Declaration No" />
-                        <Button onAction="#searchDeclaration" layoutX="617.0" layoutY="238.0" mnemonicParsing="false" text="Search" />
+                        <TextField fx:id="declarationSearchField" layoutX="449.0" layoutY="238.0" prefHeight="26.0" prefWidth="219.0" promptText="Enter Declaration No" />
                      </children>
                   </AnchorPane>
               </content>
@@ -132,14 +131,13 @@
                            </font>
                         </Label>
                         <Button layoutX="488.0" layoutY="133.0" mnemonicParsing="false" onAction="#openImporterDetails" prefHeight="38.0" text="View importer details" />
-                        <Button layoutX="567.0" layoutY="85.0" mnemonicParsing="false" prefHeight="38.0" onAction="#deleteImporter" text="Delete importer" />
-                        <TextField layoutX="449.0" fx:id="importerSearchField" layoutY="238.0" promptText="Enter Importer name" />
+                        <Button layoutX="567.0" layoutY="85.0" mnemonicParsing="false" onAction="#deleteImporter" prefHeight="38.0" text="Delete importer" />
+                        <TextField fx:id="importerSearchField" layoutX="449.0" layoutY="238.0" prefHeight="26.0" prefWidth="202.0" promptText="Enter Importer name" />
                         <Label layoutX="442.0" layoutY="187.0" text="Looking for an importer?">
                            <font>
                               <Font size="20.0" />
                            </font>
                         </Label>
-                        <Button layoutX="617.0" layoutY="238.0" mnemonicParsing="false" text="Search" onAction="#searchImporter" />
                      </children>
                   </AnchorPane>
             </content>

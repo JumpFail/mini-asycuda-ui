@@ -22,7 +22,6 @@ public class Main extends Application {
 }
 
 /*
-    search bar for decl and imp
     better status workflow
     declaration must be locked after paid
     item can be deleted before paid
