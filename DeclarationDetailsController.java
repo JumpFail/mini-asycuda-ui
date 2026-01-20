@@ -83,12 +83,25 @@ public class DeclarationDetailsController {
 
     private void updateStatusButtons() {
         DeclarationStatus status = declaration.getStatus();
+
+        boolean isDraft = status == DeclarationStatus.DRAFT;
+
+        // status buttons below
         submitButton.setDisable(status != DeclarationStatus.DRAFT || itemsList.isEmpty());
         assessButton.setDisable(status != DeclarationStatus.SUBMITTED);
         markPaidButton.setDisable(status != DeclarationStatus.ASSESSED);
+
+        // Item editing
+        addItemButton.setDisable(!isDraft);
+        removeItemButton.setDisable(!isDraft);
     }
 
     private void addItem() {
+        if (declaration.getStatus() != DeclarationStatus.DRAFT) {
+            showError("Items cannot be added after submission.");
+            return;
+        }
+
         // Simple dialog example to add an item
         DeclarationItemDialog dialog = new DeclarationItemDialog();
         dialog.showAndWait().ifPresent(item -> {
@@ -100,6 +113,11 @@ public class DeclarationDetailsController {
     }
 
     private void removeSelectedItem() {
+        if (declaration.getStatus() != DeclarationStatus.DRAFT) {
+            showError("Items cannot be deleted after submission.");
+            return;
+        }
+
         DeclarationItem selected = itemsTable.getSelectionModel().getSelectedItem();
         if (selected != null) {
             declaration.removeItem(selected);
@@ -129,6 +147,14 @@ public class DeclarationDetailsController {
                 }
             }
         });
+    }
+
+    private void showError(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Validation Error");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }
 

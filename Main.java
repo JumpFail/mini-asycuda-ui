@@ -22,8 +22,8 @@ public class Main extends Application {
 }
 
 /*
-    better status workflow
-    declaration must be locked after paid
-    item can be deleted before paid
+    dashboard table not refreshed  (DASHBOARD)
+    better status workflow (DASHBOARD)
+    declaration must be locked after paid (DECLARATIONS)
     declaration summary can be exported to pdf/text
- */
+*/

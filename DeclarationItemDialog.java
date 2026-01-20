@@ -35,17 +35,80 @@ public class DeclarationItemDialog extends Dialog<DeclarationItem> {
         getDialogPane().setContent(grid);
         getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
 
+        // --- Intercept OK button ---
+        Button okButton = (Button) getDialogPane().lookupButton(ButtonType.OK);
+        okButton.addEventFilter(javafx.event.ActionEvent.ACTION, event -> {
+            if (!validateFields(descField, hsField, qtyField, priceField, originField)) {
+                event.consume(); // ⛔ prevent dialog from closing
+            }
+        });
+
         setResultConverter(dialogButton -> {
             if (dialogButton == ButtonType.OK) {
                 return new DeclarationItem(
-                        descField.getText(),
-                        hsField.getText(),
-                        Integer.parseInt(qtyField.getText()),
-                        new BigDecimal(priceField.getText()),
-                        originField.getText()
+                        descField.getText().trim(),
+                        hsField.getText().trim(),
+                        Integer.parseInt(qtyField.getText().trim()),
+                        new BigDecimal(priceField.getText().trim()),
+                        originField.getText().trim()
                 );
             }
             return null;
         });
+    }
+
+    private boolean validateFields(
+            TextField desc,
+            TextField hs,
+            TextField qty,
+            TextField price,
+            TextField origin
+    ) {
+        if (desc.getText().isBlank()) {
+            showError("Item description is required.");
+            return false;
+        }
+
+        if (hs.getText().isBlank()) {
+            showError("HS Code is required.");
+            return false;
+        }
+
+        try {
+            int q = Integer.parseInt(qty.getText());
+            if (q <= 0) {
+                showError("Quantity must be greater than zero.");
+                return false;
+            }
+        } catch (NumberFormatException e) {
+            showError("Quantity must be a valid number.");
+            return false;
+        }
+
+        try {
+            BigDecimal p = new BigDecimal(price.getText());
+            if (p.compareTo(BigDecimal.ZERO) <= 0) {
+                showError("Unit price must be greater than zero.");
+                return false;
+            }
+        } catch (NumberFormatException e) {
+            showError("Unit price must be a valid number.");
+            return false;
+        }
+
+        if (origin.getText().isBlank()) {
+            showError("Country of origin is required.");
+            return false;
+        }
+
+        return true;
+    }
+
+    private void showError(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Validation Error");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }
