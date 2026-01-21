@@ -44,7 +44,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="432.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MiniCustomsController">
+<VBox minHeight="-Infinity" minWidth="-Infinity" prefWidth="1080.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MiniCustomsController">
    <children>
       <TabPane prefHeight="484.0" prefWidth="700.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
@@ -52,7 +52,7 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="700.0">
                      <children>
-                        <Label layoutX="316.0" layoutY="14.0" text="Home">
+                        <Label layoutX="495.0" layoutY="14.0" text="Home">
                            <font>
                               <Font name="System Bold" size="24.0" />
                            </font>
@@ -62,7 +62,7 @@
                               <Font name="System Bold" size="18.0" />
                            </font>
                         </Label>
-                        <Label layoutX="421.0" layoutY="155.0" prefHeight="30.0" prefWidth="230.0" text="Draft declarations waiting">
+                        <Label layoutX="431.0" layoutY="154.0" prefHeight="30.0" prefWidth="196.0" text="Pending declarations">
                            <font>
                               <Font size="20.0" />
                            </font>

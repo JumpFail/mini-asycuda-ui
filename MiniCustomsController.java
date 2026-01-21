@@ -233,7 +233,11 @@ public class MiniCustomsController {
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setResizable(false);
 
-            stage.setOnHidden(e -> declarationTable.refresh()); // table refresh
+            stage.setOnHidden(e -> {
+                declarationTable.refresh();
+                updateRecentDeclarations(); // refresh both tables
+            });
+
             stage.show();
 
         } catch (Exception e) {

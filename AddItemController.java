@@ -1,3 +1,7 @@
+/*
+controller for saving item input
+ */
+
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -13,6 +17,9 @@ public class AddItemController {
     @FXML private TextField unitPriceField;
     @FXML private TextField originCountryField;
 
+    /*
+    consumer works as a reference to a function
+     */
     private Consumer<DeclarationItem> onSaveCallback;
 
     public void setOnSaveCallback(Consumer<DeclarationItem> callback) {
