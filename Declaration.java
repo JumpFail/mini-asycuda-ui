@@ -32,7 +32,6 @@ public class Declaration {
     public String getImporterName() { return importer.getName(); }
     public DeclarationStatus getStatus() { return status; }
 
-    // --- Items ---
     public List<DeclarationItem> getItems() {
         return items;
     }

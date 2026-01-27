@@ -52,7 +52,6 @@ public class DeclarationItem {
         return originCountry;
     }
 
-    // String text
     @Override
     public String toString() {
         return description + " x" + quantity + " @ " + unitPrice;

@@ -22,7 +22,6 @@ public class Main extends Application {
 }
 
 /*
-    dashboard table not refreshed  (DASHBOARD)
     better status workflow (DASHBOARD)
     declaration must be locked after paid (DECLARATIONS)
     declaration summary can be exported to pdf/text

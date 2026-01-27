@@ -44,7 +44,8 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox minHeight="-Infinity" minWidth="-Infinity" prefWidth="1080.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MiniCustomsController">
+
+<VBox xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MiniCustomsController">
    <children>
       <TabPane prefHeight="484.0" prefWidth="700.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
@@ -52,7 +53,7 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="700.0">
                      <children>
-                        <Label layoutX="495.0" layoutY="14.0" text="Home">
+                        <Label layoutX="315.0" layoutY="14.0" text="Home">
                            <font>
                               <Font name="System Bold" size="24.0" />
                            </font>
@@ -77,7 +78,7 @@
                               <TableColumn fx:id="recentStatusColumn" prefWidth="80.0000061035156" text="Status" />
                           </columns>
                         </TableView>
-                        <ListView layoutX="429.0" layoutY="200.0" prefHeight="81.0" prefWidth="200.0" />
+                        <ListView fx:id="draftList" layoutX="429.0" layoutY="200.0" prefHeight="81.0" prefWidth="200.0" />
                      </children>
                   </AnchorPane>
             </content>

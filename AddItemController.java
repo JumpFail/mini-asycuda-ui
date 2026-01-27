@@ -17,9 +17,7 @@ public class AddItemController {
     @FXML private TextField unitPriceField;
     @FXML private TextField originCountryField;
 
-    /*
-    consumer works as a reference to a function
-     */
+    // Callback invoked after a DeclarationItem is successfully saved
     private Consumer<DeclarationItem> onSaveCallback;
 
     public void setOnSaveCallback(Consumer<DeclarationItem> callback) {

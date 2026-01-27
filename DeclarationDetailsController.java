@@ -26,6 +26,7 @@ public class DeclarationDetailsController {
     @FXML private TableColumn<DeclarationItem, BigDecimal> unitPriceColumn;
     @FXML private TableColumn<DeclarationItem, String> originColumn;
 
+    // --- Item Buttons ---
     @FXML private Button addItemButton;
     @FXML private Button removeItemButton;
 
@@ -39,20 +40,22 @@ public class DeclarationDetailsController {
     @FXML private Button submitButton;
     @FXML private Button assessButton;
     @FXML private Button markPaidButton;
-
+    
+    // --- Declaration metadata ---
     private Declaration declaration;
+    // --- Observable list holding items ---
     private ObservableList<DeclarationItem> itemsList;
 
     public void setDeclaration(Declaration declaration) {
         this.declaration = declaration;
 
-        // Header
+        // --- Header ---
         declNoLabel.setText(String.valueOf(declaration.getDeclarationNo()));
         importerLabel.setText(declaration.getImporterName());
         dateLabel.setText(declaration.getDate().toString());
         statusLabel.setText(declaration.getStatus().name());
 
-        // Items table
+        // --- Items table ---
         itemsList = FXCollections.observableArrayList(declaration.getItems());
         itemsTable.setItems(itemsList);
 
@@ -62,7 +65,7 @@ public class DeclarationDetailsController {
         unitPriceColumn.setCellValueFactory(data -> new javafx.beans.property.SimpleObjectProperty<>(data.getValue().getUnitPrice()));
         originColumn.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(data.getValue().getOriginCountry()));
 
-        // Setup buttons
+        // --- Setup buttons ---
         refreshTotals();
         updateStatusButtons();
 
@@ -85,12 +88,13 @@ public class DeclarationDetailsController {
         totalPayableLabel.setText("Total Payable: " + total);
     }
 
+    // --- status workflow ---
     private void updateStatusButtons() {
         DeclarationStatus status = declaration.getStatus();
 
         boolean isDraft = status == DeclarationStatus.DRAFT;
 
-        // status buttons below
+        // --- status buttons ---
         submitButton.setDisable(status != DeclarationStatus.DRAFT || itemsList.isEmpty());
         assessButton.setDisable(status != DeclarationStatus.SUBMITTED);
         markPaidButton.setDisable(status != DeclarationStatus.ASSESSED);
@@ -153,6 +157,7 @@ public class DeclarationDetailsController {
         });
     }
 
+    // for error
     private void showError(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Validation Error");
@@ -161,5 +166,3 @@ public class DeclarationDetailsController {
         alert.showAndWait();
     }
 }
-
-// validation needed

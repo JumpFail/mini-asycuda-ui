@@ -16,9 +16,11 @@ import javafx.stage.Stage;
 
 import java.time.LocalDate;
 
+import static java.util.stream.Collectors.toList;
+
 public class MiniCustomsController {
 
-    // importers
+    // --- Importers ---
     @FXML
     private TableView<Importer> importerTable;
     private ObservableList<Importer> importersList;
@@ -33,7 +35,7 @@ public class MiniCustomsController {
     @FXML
     private TextField declarationSearchField;
 
-    // declaration
+    // --- Declaration ---
     @FXML
     private TableView<Declaration> declarationTable;
     @FXML
@@ -47,7 +49,7 @@ public class MiniCustomsController {
     @FXML
     private TableColumn<Declaration, Integer> itemsColumn;
 
-    // dashboard table
+    // --- dashboard table ---
     @FXML
     private TableView<Declaration> recentDeclarationTable;
     @FXML
@@ -58,14 +60,18 @@ public class MiniCustomsController {
     private TableColumn<Declaration, String> recentImporterColumn;
     @FXML
     private TableColumn<Declaration, String> recentStatusColumn;
+    @FXML
+    private ListView<Declaration> draftList;
 
-    // data
+    // --- data ---
     private ObservableList<Declaration> allDeclarations;
     private ObservableList<Declaration> recentDeclarations;
+    private ObservableList<Declaration> pendingDeclarations;
 
     @FXML
     public void initialize(){
 
+        // search fields
         importerSearchField.textProperty().addListener((obs, oldText, newText) -> searchImporter());
         declarationSearchField.textProperty().addListener((obs, oldText, newText) -> searchDeclaration());
 
@@ -95,6 +101,61 @@ public class MiniCustomsController {
         recentDateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
         recentImporterColumn.setCellValueFactory(new PropertyValueFactory<>("importerName"));
         recentStatusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
+
+        pendingDeclarations = FXCollections.observableArrayList();
+        draftList.setItems(pendingDeclarations);
+
+        draftList.setCellFactory(declarationListView -> new ListCell<>(){
+            @Override
+            protected void updateItem(Declaration item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if (empty || item == null){
+                    setText(null);
+                } else {
+                    setText(
+                            "Decl " + item.getDeclarationNo()
+                                    + " • " + item.getImporterName()
+                                    + " • " + item.getStatus()
+                    );
+                }
+            }
+        });
+
+        // double click function
+        draftList.setOnMouseClicked(e -> {
+            if (e.getClickCount() == 2) {
+                Declaration selected = draftList.getSelectionModel().getSelectedItem();
+                if (selected != null) {
+                    // reuse openDeclarationDetails logic
+                    declarationTable.getSelectionModel().select(selected);
+                    openDeclarationDetails();
+                }
+            }
+        });
+
+        importerTable.setOnMouseClicked(e -> {
+            if (e.getClickCount() == 2) {
+                openImporterDetails();
+            }
+        });
+
+        declarationTable.setOnMouseClicked(e -> {
+            if (e.getClickCount() == 2) {
+                openDeclarationDetails();
+            }
+        });
+    }
+
+    private void updatePendingDeclarations() {
+        pendingDeclarations.setAll(
+                allDeclarations.stream()
+                        .filter(d ->
+                                d.getStatus() == DeclarationStatus.DRAFT ||
+                                        d.getStatus() == DeclarationStatus.SUBMITTED
+                        )
+                        .toList()
+        );
     }
 
     // Importer tab
@@ -184,6 +245,7 @@ public class MiniCustomsController {
 
                 allDeclarations.add(declaration);
                 updateRecentDeclarations();
+                updatePendingDeclarations();
             });
 
             Stage stage = new Stage();
@@ -236,6 +298,7 @@ public class MiniCustomsController {
             stage.setOnHidden(e -> {
                 declarationTable.refresh();
                 updateRecentDeclarations(); // refresh both tables
+                updatePendingDeclarations();
             });
 
             stage.show();
@@ -276,6 +339,7 @@ public class MiniCustomsController {
             if (response == ButtonType.YES) {
                 allDeclarations.remove(selected);
                 updateRecentDeclarations();
+                updatePendingDeclarations();
             }
         });
     }
